@@ -28,7 +28,7 @@ func CheckUser(name string) (code int) {
 // CreateUser 创建用户
 func CreateUser(data *User) (code int) {
 	//密码加密
-	data.Password = ScryptPw(data.Password)
+	//data.Password = ScryptPw(data.Password)
 	var err = db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -46,6 +46,11 @@ func GetUsers(pageSize int, pageNum int) []User {
 	return users
 }
 
+// BeforeSave 钩子函数-密码加密
+func (u *User) BeforeSave() {
+	u.Password = ScryptPw(u.Password)
+}
+
 // ScryptPw Scrypt 密码加密
 func ScryptPw(password string) string {
 	const KeyLen = 10
@@ -58,4 +63,14 @@ func ScryptPw(password string) string {
 	}
 	fpw := base64.StdEncoding.EncodeToString(HashPw)
 	return fpw
+}
+
+// DeleteUser 删除用户
+func DeleteUser(id int) int {
+	var user User
+	err := db.Where("id=?", id).Delete(&user).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
