@@ -47,6 +47,21 @@ func GetUsers(c *gin.Context) {
 }
 
 func EditUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	var data model.User
+	_ = c.ShouldBindJSON(&data)
+
+	code := model.CheckUser(data.Username)
+	if code == errmsg.SUCCSE {
+		model.EditUser(id, &data)
+	}
+	if code == errmsg.ERROR_USERNAME_USED {
+		c.Abort()
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	})
 
 }
 

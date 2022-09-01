@@ -65,6 +65,19 @@ func ScryptPw(password string) string {
 	return fpw
 }
 
+func EditUser(id int, data *User) int {
+	var user User
+	var maps = make(map[string]interface{})
+	maps["username"] = data.Username
+	maps["role"] = data.Role
+
+	err := db.Model(&user).Where("id=?", id).Update(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
 // DeleteUser 删除用户
 func DeleteUser(id int) int {
 	var user User
