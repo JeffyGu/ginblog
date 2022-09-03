@@ -26,6 +26,7 @@ func AddUser(c *gin.Context) {
 	)
 }
 
+// 获取用户列表
 func GetUsers(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
@@ -46,6 +47,7 @@ func GetUsers(c *gin.Context) {
 	})
 }
 
+// 修改用户
 func EditUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var data model.User
@@ -65,6 +67,7 @@ func EditUser(c *gin.Context) {
 
 }
 
+// 删除用户
 func DeleteUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	code := model.DeleteUser(id)
