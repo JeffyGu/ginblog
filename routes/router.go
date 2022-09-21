@@ -4,7 +4,7 @@ import (
 	v1 "ginblog/api/v1"
 	"ginblog/middleware"
 	"ginblog/utils"
-	_ "github.com/JeffyGu/ginblog.git/docs"
+	_ "github.com/JeffyGu/ginblog.git/ginblog/docs"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
