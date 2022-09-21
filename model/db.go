@@ -26,8 +26,9 @@ func InitDb() {
 	db.SingularTable(true)
 
 	// 数据迁移
-	db.AutoMigrate(&User{},&Article{},&Category{})
-
+	db.AutoMigrate(&User{}, &Article{}, &Category{})
+	// 显示sql
+	db.LogMode(true)
 	// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
 	db.DB().SetMaxIdleConns(10)
 

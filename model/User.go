@@ -46,25 +46,7 @@ func GetUsers(pageSize int, pageNum int) []User {
 	return users
 }
 
-// BeforeSave 钩子函数-密码加密
-func (u *User) BeforeSave() {
-	u.Password = ScryptPw(u.Password)
-}
-
-// ScryptPw Scrypt 密码加密
-func ScryptPw(password string) string {
-	const KeyLen = 10
-	salt := make([]byte, 8)
-	salt = []byte{17, 18, 7, 24, 29, 200, 97, 20}
-
-	HashPw, err := scrypt.Key([]byte(password), salt, 16384, 8, 1, KeyLen)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fpw := base64.StdEncoding.EncodeToString(HashPw)
-	return fpw
-}
-
+// EditUser 修改用户
 func EditUser(id int, data *User) int {
 	var user User
 	var maps = make(map[string]interface{})
@@ -84,6 +66,42 @@ func DeleteUser(id int) int {
 	err := db.Where("id=?", id).Delete(&user).Error
 	if err != nil {
 		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+// BeforeSave 钩子函数-密码加密
+func (u *User) BeforeSave() {
+	u.Password = ScryptPw(u.Password)
+}
+
+// ScryptPw Scrypt 密码加密
+func ScryptPw(password string) string {
+	const KeyLen = 10
+	salt := make([]byte, 8)
+	salt = []byte{17, 18, 7, 24, 29, 200, 97, 20}
+
+	HashPw, err := scrypt.Key([]byte(password), salt, 16384, 8, 1, KeyLen)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fpw := base64.StdEncoding.EncodeToString(HashPw)
+	return fpw
+}
+
+// 登录验证
+func CheckLogin(username string, password string) int {
+	var user User
+	db.Where("username =?", username).First(&user)
+
+	if user.ID == 0 {
+		return errmsg.ERROR_USER_NOT_EXIST
+	}
+	if ScryptPw(password) != user.Password {
+		return errmsg.ERROR_PASSWORD_WRONG
+	}
+	if user.Role != 0 {
+		return errmsg.ERROR_USER_NO_RIGHT
 	}
 	return errmsg.SUCCSE
 }
