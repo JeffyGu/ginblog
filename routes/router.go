@@ -5,7 +5,6 @@ import (
 	_ "ginblog/docs"
 	"ginblog/middleware"
 	"ginblog/utils"
-	//_ "github.com/JeffyGu/ginblog/docs"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -13,7 +12,9 @@ import (
 
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
+	r := gin.New()
+
+	r.Use(middleware.Cors())
 
 	url := ginSwagger.URL("http://127.0.0.1:3000/swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
