@@ -8,7 +8,11 @@ definitions:
     type: object
 info:
   contact: {}
+  description: ginblog项目
   license: {}
+  termsOfService: https://github.com/jeffygu/ginblog
+  title: ginblog系统
+  version: "1.0"
 paths:
   /api/v1/categorys:
     get:
@@ -28,11 +32,11 @@ paths:
         type: integer
       - description: 页码
         in: query
-        name: page
+        name: pagenum
         type: integer
       - description: 每页数量
         in: query
-        name: page_size
+        name: pagesize
         type: integer
       produces:
       - application/json

@@ -1,8 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
+        "description": "ginblog项目",
+        "title": "ginblog系统",
+        "termsOfService": "https://github.com/jeffygu/ginblog",
         "contact": {},
-        "license": {}
+        "license": {},
+        "version": "1.0"
     },
     "paths": {
         "/api/v1/categorys": {
@@ -33,13 +37,13 @@
                     {
                         "type": "integer",
                         "description": "页码",
-                        "name": "page",
+                        "name": "pagenum",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "每页数量",
-                        "name": "page_size",
+                        "name": "pagesize",
                         "in": "query"
                     }
                 ],

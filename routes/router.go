@@ -15,6 +15,7 @@ func InitRouter() {
 	r := gin.New()
 
 	r.Use(middleware.Cors())
+	r.Use(middleware.Logger())
 
 	url := ginSwagger.URL("http://127.0.0.1:3000/swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
