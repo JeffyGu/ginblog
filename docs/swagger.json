@@ -56,6 +56,22 @@
                     }
                 }
             }
+        },
+        "/api/v1/categorys/add": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "添加分类",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.Category"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

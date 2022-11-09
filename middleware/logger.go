@@ -40,7 +40,7 @@ func Logger() gin.HandlerFunc {
 		logrus.PanicLevel: logWriter,
 	}
 	Hook := lfshook.NewHook(writeMap, &logrus.TextFormatter{
-		TimestampFormat: "2006-01-02 15:04:05",
+		TimestampFormat: "2006-01-02 15:04:05", //格式化,固定写法:2006-01-02 15:04:05
 	})
 
 	logger.AddHook(Hook)

@@ -8,7 +8,10 @@ import (
 	"strconv"
 )
 
-// 添加分类
+// @Summary 添加分类
+// @Produce json
+// @Success 200 {object} model.Category "成功"
+// @Router /api/v1/categorys/add [post]
 func AddCategory(c *gin.Context) {
 	var data model.Category
 	_ = c.ShouldBindJSON(&data)

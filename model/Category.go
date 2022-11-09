@@ -41,11 +41,12 @@ func GetCategorys(pageSize int, pageNum int) []Category {
 
 // 修改分类
 func EditCategory(id int, data *Category) int {
-	var cate Category
-	var maps = make(map[string]interface{})
-	maps["name"] = data.Name
+	//var cate Category
+	//var maps = make(map[string]interface{})
+	//maps["name"] = data.Name
 
-	err := db.Model(&cate).Where("id=?", id).Update(maps).Error
+	//err := db.Model(&cate).Where("id=?", id).Update(maps).Error
+	err := db.Model(&data).Where("id=?", id).Update(&data).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

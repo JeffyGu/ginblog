@@ -26,6 +26,9 @@ gin+vue全栈博客+++
 3.  提交代码
 4.  新建 Pull Request
 
+##### 上传图片
+[图片file](http://rl2cilj4n.hn-bkt.clouddn.com/Fpz4z60OVUl1Vm19W-OCtdQi7xs4)
+
 
 #### 特技
 

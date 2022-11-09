@@ -46,4 +46,14 @@ paths:
           schema:
             $ref: '#/definitions/model.Category'
       summary: 获取分类列表
+  /api/v1/categorys/add:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Category'
+      summary: 添加分类
 swagger: "2.0"
