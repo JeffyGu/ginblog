@@ -8,6 +8,27 @@ import (
 	"strconv"
 )
 
+func GetCateArticle(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Query("id"))
+	pageSize, _ := strconv.Atoi(c.Query("pageSize"))
+	pageNum, _ := strconv.Atoi(c.Query("pageNum"))
+
+	if pageSize == 0 {
+		pageSize = -1
+	}
+	if pageNum == 0 {
+		pageNum = -1
+	}
+
+	arts, code, total := model.GetCateArticle(id, pageSize, pageNum)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    arts,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
+
 // 添加文章
 func AddArticle(c *gin.Context) {
 	var data model.Article
@@ -35,18 +56,19 @@ func GetArticles(c *gin.Context) {
 		pageNum = -1
 	}
 
-	arts,code := model.GetArticles(pageSize, pageNum)
+	arts, code, total := model.GetArticles(pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    arts,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
 
 // 获取单篇文章
-func GetArtInfo(c *gin.Context)  {
+func GetArtInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	art ,code :=model.GetArtInfo(id)
+	art, code := model.GetArtInfo(id)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    art,

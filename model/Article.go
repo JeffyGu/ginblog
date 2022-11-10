@@ -15,6 +15,17 @@ type Article struct {
 	Img     string `gorm:"type:varchar(100)" json:"img"`
 }
 
+// 查询分类下的所有文章
+func GetCateArticle(id int, pageSize int, pageNum int) ([]Article, int, int) {
+	var cateArtList []Article
+	var total int
+	err := db.Preloads("Category").Limit(pageSize).Offset(pageNum).Where(" cid=?", id).Find(&cateArtList).Count(&total).Error
+	if err != nil {
+		return nil, errmsg.ERROR_CATE_NOT_EXIST, 0
+	}
+	return cateArtList, errmsg.SUCCSE, total
+}
+
 // 创建文章
 func CreateArticle(data *Article) (code int) {
 	var err = db.Create(&data).Error
@@ -25,13 +36,14 @@ func CreateArticle(data *Article) (code int) {
 }
 
 // 获取文章列表
-func GetArticles(pageSize int, pageNum int) ([]Article, int) {
+func GetArticles(pageSize int, pageNum int) ([]Article, int, int) {
 	var arts []Article
-	err := db.Preloads("Category").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&arts).Error
+	var total int
+	err := db.Preloads("Category").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&arts).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, errmsg.ERROR
+		return nil, errmsg.ERROR, 0
 	}
-	return arts, errmsg.SUCCSE
+	return arts, errmsg.SUCCSE, total
 }
 
 // 获取单篇文章

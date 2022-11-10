@@ -30,13 +30,14 @@ func CreateCategory(data *Category) (code int) {
 }
 
 // 获取分类列表
-func GetCategorys(pageSize int, pageNum int) []Category {
+func GetCategorys(pageSize int, pageNum int) ([]Category,int) {
 	var cates []Category
-	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&cates).Error
+	var total int
+	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&cates).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil,0
 	}
-	return cates
+	return cates,total
 }
 
 // 修改分类
