@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+//跨域
 func Cors() gin.HandlerFunc {
 	return cors.New(
 		cors.Config{

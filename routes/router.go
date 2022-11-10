@@ -14,13 +14,16 @@ func InitRouter() {
 	gin.SetMode(utils.AppMode)
 	r := gin.New()
 
+	//注册跨越
 	r.Use(middleware.Cors())
+	//注册日志中间件
 	r.Use(middleware.Logger())
 
 	url := ginSwagger.URL("http://127.0.0.1:3000/swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	auth := r.Group("api/v1")
+	//鉴权路由
 	auth.Use(middleware.JwtToken())
 	{
 		auth.PUT("user/:id", v1.EditUser)
@@ -34,7 +37,7 @@ func InitRouter() {
 		// 上传文件
 		auth.POST("upload", v1.UpLoad)
 	}
-
+	//不需要鉴权路由
 	router := r.Group("api/v1")
 	{
 		// 用户模块的路由接口
